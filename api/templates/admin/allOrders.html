@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block styleLink %}
+
+<link rel="stylesheet" href="/static/css/allOrders.css">
+
+{% endblock %}
+
+{% block content %}
+
+{% include "navbar.html" %}
+
+<div class="all-orders-page">
+    <h3>Orders</h3>
+
+    <div class="all-orders">
+
+      {% for order in orders%}
+          <div class="all-orders-order">
+            <img src="{{order.mainImg}}" alt="" />
+            <div class="all-orders-order-data">
+              
+              <h4>{{order.title}}</h4>
+              <p>{{order.description}}</p>
+              <div>
+                <span><p><b>Quantity: </b> {{order.quantity}}</p></span>
+                <span><p><b>Total Amount: </b> &#8377; {{order.totalPrice}}</p></span>
+                <span><p><b>Payment method: </b> {{order.paymentMethod}}</p></span>
+              </div>
+              <div>
+                <span><p><b>UserId: </b> {{order.userId}}</p></span>
+                <span><p><b>Name: </b> {{order.name}}</p></span>
+                <span><p><b>Email: </b> {{order.email}}</p></span>
+                <span><p><b>Mobile: </b> {{order.mobile}}</p></span>
+              </div>
+              <div>
+                <span><h5><b>Address: </b> {{order.address}}</h5></span>
+                <span><h5><b>Pincode: </b> {{order.pincode}}</h5></span>
+                <span><h5><b>Ordered on: </b> {{order.orderDate}}</h5></span>
+              </div>
+              <div>
+                  <span><h5><b>Status: </b> {{order.orderStatus}}</h5></span>
+
+                  {% if order.orderStatus != "Delivered" and order.orderStatus != "Cancelled" %}
+                      <span>
+                        <a href="/deliver-order/{{order.id}}"><button class='btn btn-primary' >Mark as delivered</button></a>
+                        <a href="/cancel-admin-order/{{order.id}}"><button class='btn btn-danger' >Cancel</button></a>
+                      </span>
+                  {% endif %}
+                   
+                </div>
+            </div>
+          </div>
+
+      {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

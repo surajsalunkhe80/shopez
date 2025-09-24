@@ -1,1 +1,53 @@
-1
+{% extends "base.html" %}
+
+{% block styleLink %}
+
+<link rel="stylesheet" href="/static/css/admin.css">
+
+{% endblock %}
+
+{% block content %}
+
+
+{% include "navbar.html" %}
+
+<div class="admin-page">
+
+    <div>
+      <div class="admin-home-card">
+        <h5>Total users</h5>
+        <p>{{usersCount}}</p>
+        <a href="/all-users"><button >View all</button></a>
+      </div>
+    </div>
+    
+    <div>
+      <div class="admin-home-card">
+        <h5>All Products</h5>
+        <p>{{productsCount}}</p>
+        <a href="/all-products"><button >View all</button></a>
+      </div>
+    </div>
+
+    <div>
+      <div class="admin-home-card">
+        <h5>All Orders</h5>
+        <p>{{ordersCount}}</p>
+        <a href="/all-orders"><button >View all</button></a>
+      </div>
+    </div>
+
+    <div>
+      <div class="admin-home-card">
+        <h5>Add Product</h5>
+        <p>(new)</p>
+        <a href="/new-product"><button >Add now</button></a>
+      </div>
+    </div>
+
+
+    
+
+  </div>
+
+{% endblock %}

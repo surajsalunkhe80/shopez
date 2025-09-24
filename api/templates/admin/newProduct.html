@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block styleLink %}
+
+<link rel="stylesheet" href="/static/css/newProduct.css">
+
+{% endblock %}
+
+{% block content %}
+
+{% if success %}
+
+<script>
+
+  alert("New product added successfully!!")
+  window.location.href = "/all-products";
+
+</script>
+{% endif %}
+
+{% include "navbar.html" %}
+
+<div class="new-product-page">
+    <form class="new-product-container" method="post">
+      <h3>New Product</h3>
+
+      {% csrf_token %}
+      <div class="new-product-body">
+
+        <span>
+          <div class="form-floating mb-3 span-21">
+            {{form.title}}
+            <label htmlFor="floatingNewProduct1">Product name</label>
+          </div>
+          <div class="form-floating mb-3 span-22">
+            {{form.description}}
+            <label htmlFor="floatingNewProduct2">Product Description</label>
+          </div>
+        </span>
+
+        <div class="form-floating mb-3">
+          {{form.mainImg}}
+          <label htmlFor="floatingNewProduct1">Thumbnail Img url</label>
+        </div>
+
+        <span>
+          <div class="form-floating mb-3 span-3">
+            {{form.carousel1}}
+            <label htmlFor="floatingNewProduct2">Add on img1 url</label>
+          </div>
+          <div class="form-floating mb-3 span-3">
+            {{form.carousel2}}
+            <label htmlFor="floatingNewProduct2">Add on img2 url</label>
+          </div>
+          <div class="form-floating mb-3 span-3">
+            {{form.carousel3}}
+            <label htmlFor="floatingNewProduct2">Add on img3 url</label>
+          </div>
+        </span>
+
+        <div class="form-floating mb-3 ">
+          {{form.gender}}
+          <label htmlFor="floatingNewProduct5">Gender</label>
+        </div>
+
+        <span>
+          <div class="form-floating mb-3 span-21">
+            {{form.category}}
+            <label htmlFor="floatingNewProduct5">Category</label>
+          </div>
+          <div class="form-floating mb-3 span-22">
+            {{form.quantity}}
+            <label htmlFor="floatingNewProduct6">Available Quantity</label>
+          </div>
+        </span>
+
+        <span>
+          <div class="form-floating mb-3 span-21">
+            {{form.price}}
+            <label htmlFor="floatingNewProduct6">Price</label>
+          </div>
+          <div class="form-floating mb-3 span-22">
+            {{form.discount}}
+            <label htmlFor="floatingNewProduct7">Discount (in %)</label>
+          </div>
+        </span>
+ 
+      </div>
+
+      <button class='btn btn-primary' type="submit" >Add product</button>
+    </form>
+</div>
+
+{% endblock %}

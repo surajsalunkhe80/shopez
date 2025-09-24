@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block styleLink %}
+
+<link rel="stylesheet" href="/static/css/allProducts.css">
+
+{% endblock %}
+
+{% block content %}
+
+
+{% include "navbar.html" %}
+
+<div class="all-products-page">
+    <div class="all-products-container">
+
+
+
+    <div class="all-products-body">
+        <h3>All Products</h3>
+        <div class="all-products">
+
+                {% for product in products %}
+                    <div class='all-product-item' >
+                        <div class="all-product">
+                            <img src="{{product.mainImg}}" alt="" />
+                            <div class="all-product-data">
+                                <h6>{{product.title}}</h6>
+                                <p>{{product.description}}</p>
+                                <h5>&#8377; {{product.discountedPrice}} <s>{{product.price}}</s><p>( {{product.discount}}% off)</p></h5>
+                            </div>
+                            <a href="/update-product/{{product.id}}"><button>Update</button></a>
+                        </div>
+                    </div>
+
+                {% endfor %}
+               
+
+        </div>
+    </div>
+</div>
+</div>
+
+{% endblock %}
