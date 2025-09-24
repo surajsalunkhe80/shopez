@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block styleLink %}
+
+<link rel="stylesheet" href="/static/css/navbar.css">
+
+{% endblock %}
+
+{% block content %}
+
+
+
+<div class="navbar" style="display: none;"  id='options_loggedOut'>
+    <a href="/"><h3 >Amazon</h3></a>
+    <div class="nav-content"  >
+      <a href="/login"><button class='btn'>Login</button></a>
+    </div>
+</div>
+
+<div class="navbar" style="display: none;" id='customer'>
+    <a href="/"><h3 >ShopEZ</h3></a>
+    <div class="nav-content">
+      <div class="nav-search">
+        <input type="text" name="nav-search" id="nav-search" placeholder='Search Electronics, Fashion, mobiles, etc.,' />
+        <p id="nav_search_btn" class="nav-search-icon" >🔍</p>
+      </div>
+
+      <script>
+            var nav_search_btn = document.getElementById("nav_search_btn")
+            var nav_search = document.getElementById("nav-search")
+
+            nav_search_btn.addEventListener('click', function(event) {
+                event.preventDefault();
+                var navSearchValue = nav_search.value
+                window.location.href = `/category/${navSearchValue}`;
+  
+            });
+      </script>
+
+      <div class='nav-content-icons' >
+        <a class="nav-profile" >
+          <BsPersonCircle class='navbar-icons' data-bs-toggle="tooltip" data-bs-placement="bottom" title="Profile" />
+          <a href="/load-profile" id="Profile_link" >profile</a>
+        </a>
+        <a class="nav-cart" href="/load-cart" >View cart</a>
+      </div>
+    </div>
+</div>
+
+
+<div class="navbar-admin" style="display: none;" id='admin'>
+    <a href="/admin"><h3>Amazon (admin)</h3></a>
+    
+    <ul>
+        <a href="/admin"><li>Home</li></a>
+        <a href="/all-users"><li >Users</li></a>
+        <a href="/all-orders"><li >Orders</li></a>
+        <a href="/all-products"><li >Products</li></a>
+        <a href="/new-product"><li >New Product</li></a>
+        <p id="logoutBtn" >logout</p> 
+    </ul>
+  </div>
+
+<script>
+
+    const myLink = document.getElementById('logoutBtn');
+    myLink.addEventListener('click', function(event) {
+        event.preventDefault();
+
+        localStorage.clear();
+        for (let key in localStorage) {
+            if (localStorage.hasOwnProperty(key)) {
+                localStorage.removeItem(key);
+            }
+        }
+        window.location.href = '/';
+
+    });
+   
+</script>
+
+<script>
+    function displayDivIfUserIdExists() {
+        const usertype = localStorage.getItem('usertype');
+
+        const customer = document.getElementById('customer');
+        const admin = document.getElementById('admin');
+        const options_loggedOut = document.getElementById('options_loggedOut');
+
+        if(!usertype){
+            customer.style.display = 'none';
+            admin.style.display = 'none';
+            options_loggedOut.style.display = 'flex';
+        } else if (usertype === "user") {
+            customer.style.display = 'flex';
+            admin.style.display = 'none';
+            options_loggedOut.style.display = 'none';
+
+        }else if (usertype === "admin") {
+            customer.style.display = 'none';
+            admin.style.display = 'flex';
+            options_loggedOut.style.display = 'none';
+
+        }
+    }
+
+    window.onload = displayDivIfUserIdExists;
+</script>
+
+
+</div>
+
+
+{% endblock %}

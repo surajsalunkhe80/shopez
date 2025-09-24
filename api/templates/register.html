@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block styleLink %}
+
+<link rel="stylesheet" href="/static/css/authentication.css">
+
+{% endblock %}
+
+{% block content %}
+
+{% if isLogged %}
+    <script>
+        alert("You are logged in successfully!!");
+        localStorage.setItem("isLogged", true);
+        localStorage.setItem("userId", "{{data.userId}}");
+        localStorage.setItem("username", "{{data.username}}");
+        localStorage.setItem("email", "{{data.email}}");
+        localStorage.setItem("usertype", "{{data.usertype}}");
+        
+        if("{{data.usertype}}" == "admin"){
+            
+            window.location.href = "/admin";
+        }else{
+            
+            window.location.href = "/";
+        }
+
+    </script>
+{% endif %}
+
+{% include "navbar.html" %}
+
+<div class="AuthenticatePage">
+
+    <form class="authForm" method="POST">
+        {% csrf_token %}
+        <h2>Register</h2>
+        <div class="form-floating mb-3 authFormInputs">
+            {{form.username}}
+            <label htmlFor="floatingInput">Username</label>
+        </div>
+        <div class="form-floating mb-3 authFormInputs">
+            {{form.email}}
+            <label htmlFor="floatingInput">Email address</label>
+        </div>
+        <div class="form-floating mb-3 authFormInputs">
+            {{form.password}}
+            <label htmlFor="floatingPassword">Password</label>
+        </div>
+        {{form.usertype}}
+        
+        <button class="btn btn-primary" type="submit">Sign up</button>
+        <p>Already registered? <a href="/login"><span>Login</span></a></p>
+    </form>
+
+</div>
+
+{% endblock %}
