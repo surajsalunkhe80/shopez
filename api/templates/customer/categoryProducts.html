@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block styleLink %}
+
+<link rel="stylesheet" href="/static/css/products.css">
+<link rel="stylesheet" href="/static/css/categoryProducts.css">
+
+{% endblock %}
+
+{% block content %}
+
+{% include "navbar.html" %}
+
+<div class="categoryProducts-page">
+
+    <div class="products-container">
+
+
+        <div class="products-body">
+            <h3>Related Products</h3>
+            <div class="products">
+
+                {% if productsCount == 0%}
+                    <p>No related products found!!</p>
+                {% endif %}
+
+                {% for product in products %}
+                    <a href="/load-product/{{product.id}}">
+                        <div class='product-item' >
+                            <div class="product" >
+                                <img src="{{product.mainImg}}" alt="" />
+                                <div class="product-data">
+                                    <h6>{{product.title}}</h6>
+                                    <p>{{product.description}}</p>
+                                    <h5>&#8377; {{product.discountedPrice}} <s>{{product.price}}</s><p>( {{product.discount}}% off)</p></h5>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+              
+ 
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+{% endblock %}

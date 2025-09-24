@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block styleLink %}
+
+<link rel="stylesheet" href="/static/css/profile.css">
+
+{% endblock %}
+
+{% block content %}
+
+{% include "navbar.html" %}
+
+<div class="profilePage">
+
+    <div class="profileCard">
+
+        <span>
+          <h5>Username: </h5>
+          <p>{{user.username}}</p>
+        </span>
+        <span>
+          <h5>Email: </h5>
+          <p>{{user.email}}</p>
+        </span>
+        <span>
+          <h5>Orders: </h5>
+          <p>{{ordersCount}}</p>
+        </span>
+        <button class='btn btn-danger' type="button" id="logoutBtn1" >Logout</button>
+
+        
+        <script>
+
+          const logoutBtn = document.getElementById('logoutBtn1');
+
+          logoutBtn.addEventListener('click', function(event) {
+              event.preventDefault();
+              localStorage.clear();
+              for (let key in localStorage) {
+                  if (localStorage.hasOwnProperty(key)) {
+                      localStorage.removeItem(key);
+                  }
+              }
+              window.location.href = '/';
+
+          });
+        </script>
+      
+
+    </div>
+
+    <div class="profileOrders-container">
+      <h3>Orders</h3>
+      <div class="profileOrders">
+
+        {% for order in orders%}
+   
+            <div class="profileOrder" >
+              <img src="{{order.mainImg}}" alt="" />
+              <div class="profileOrder-data">
+                <h4>{{order.title}}</h4>
+                <p>{{order.description}}</p>
+                <div>
+                  <span><p><b>Quantity: </b> {{order.quantity}}</p></span>
+                  <span><p><b>Amount: </b> &#8377; {{order.totalPrice}}</p></span>
+                  <span><p><b>Payment method: </b> {{order.paymentMethod}}</p></span>
+                </div>
+                <div>
+                  <span><p><b>Address: </b> {{order.address}}</p></span>
+                </div>
+                <div>
+                  <span><p><b>Pincode: </b> {{order.pincode}}</p></span>
+                  <span><p><b>Ordered on: </b> {{order.orderDate}}</p></span>
+                  <span><p><b>Status: </b> {{order.orderStatus}}</p></span>
+                </div>
+                  {% if order.orderStatus != "Delivered" and order.orderStatus != "Cancelled" %}
+                  <a href="/cancel-order/{{order.id}}"><button class='btn btn-danger' >Cancel</button></a>
+                  {% endif %}
+              </div>
+            </div>
+
+          {% endfor %}
+          
+      </div>
+    </div>
+
+  </div>
+
+{% endblock %}

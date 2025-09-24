@@ -1,1 +1,139 @@
-1
+{% extends "base.html" %}
+
+{% block styleLink %}
+
+<link rel="stylesheet" href="/static/css/cart.css">
+
+{% endblock %}
+
+{% block content %}
+
+{% include "navbar.html" %}
+
+{% if error %}
+
+<script>
+    alert("Error occured!! Please try again..!!")
+    window.reload()
+</script>
+
+{% endif %}
+
+{% if success %}
+
+    <script>
+        alert("Order placed successfully!!")
+        window.location.href ="/load-profile"
+    </script>
+    
+{% endif %}
+
+<div class="cartPage">
+    <div class="cartContents">
+
+      {% if totalPrice == 0 %}
+        <p style="text-align: center; margin-top: 20vh;">Cart is empty...</p>
+      {% endif %}
+      
+      {% for item in items %}
+
+          <div class="cartItem">
+            <img src="{{item.mainImg}}" alt="" />
+            <div class="cartItem-data">
+              <h4>{{item.title}}</h4>
+              <p>{{item.description}}</p>
+              <div class="cartItem-inputs">
+
+                <span><p><b>Quantity: </b> {{item.quantity}}</p></span>
+              </div>
+              <span><h5><b>Total Amount: </b> &#8377; {{item.totalPrice}}</h5></span>
+              <a href="/remove-from-cart/{{item.id}}"><button class='btn' >Remove</button></a>
+            </div>
+          </div>
+   
+      {% endfor %}
+
+    </div>
+
+
+    <div class="cartPriceBody">
+      <h4>Price Details</h4>
+      <span><b>Total MRP: </b> <p>&#8377; {{totalPrice}}</p></span>
+      <span><b>Discount on MRP: </b> <p style="color:rgb(7, 156, 106)"> - &#8377; {{discount}}</p></span>
+      <span><b>Delivery Charges: </b> <p style="color:red"> + &#8377; {{deliveryCharges}}</p></span>
+      <hr />
+      <h5><b>Final Price: </b> &#8377; {{finalPrice}}</h5>
+      <button data-bs-toggle="modal" data-bs-target="#staticBackdrop" >Place order</button>
+    </div>
+
+
+
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <form class="modal-content" method="post">
+          {% csrf_token %}
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">Checkout</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+          
+          <div class="checkout-address">
+
+              <h4>Checkout details</h4>
+              
+              <div class="form-floating mb-3">
+                {{form.name}}
+                <label htmlFor="floatingInput1">Name</label>
+              </div>
+
+              <section>
+                <div class="form-floating mb-3 span-child-2">
+                  {{form.mobile}}
+                  <label htmlFor="floatingInput2">Mobile</label>
+                </div>
+
+                <div class="form-floating mb-3 span-child-1">
+                  {{form.email}}
+                  <label htmlFor="floatingInput3">Email</label>
+                </div>
+              </section>
+
+
+              <section>
+                <div class="form-floating mb-3 span-child-1">
+                  {{form.address}}
+                  <label htmlFor="floatingInput6">Address</label>
+                </div>
+
+                <div class="form-floating mb-3 span-child-2">
+                  {{form.pincode}}
+                  <label htmlFor="floatingInput7">Pincode</label>
+                </div>
+              </section>
+
+
+          </div>
+
+          <div class="checkout-payment-method">
+            <h4>Payment method</h4>
+            <div class="form-floating mb-3">
+              {{form.paymentMethod}}
+              <label htmlFor="floatingInput8">Choose Payment method</label>
+            </div>
+          </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">cancel</button>
+            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" onClick={placeOrder}>Order</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+
+
+  </div>
+
+{% endblock %}
